@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * @projectName: mall
  * @package: com.ly.mall.domain
@@ -18,12 +22,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("用户基本信息")
+@ApiModel("用户实体")
 public class User {
+
+
+    @NotNull
     @ApiModelProperty("用户id")
     private Long id;
+
+    @Size(min = 2,max = 10)
     @ApiModelProperty("姓名")
     private String username;
+
+    @Size(min=8,max = 30)
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")
     @ApiModelProperty("密码")
     private String password;
 }

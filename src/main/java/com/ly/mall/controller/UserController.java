@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -48,7 +49,7 @@ public class UserController {
      */
     @ApiOperation(value = "添加用户",notes = "根据User对象创建用户")
     @PostMapping("/")
-    public String postUser(@RequestBody User user){
+    public String postUser(@Valid @RequestBody User user){
         userMap.put(user.getId(), user);
         return "success";
     }
