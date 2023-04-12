@@ -11,6 +11,7 @@
     <groupId>com.ly</groupId>
     <artifactId>mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>mall</name>
     <description>mall</description>
     <properties>
@@ -74,6 +75,20 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>
+            src/main/java
+        </sourceDirectory>
+        <resources>
+            <resource>
+                <directory>
+                    src/main/resources
+                </directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>/项目文件/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -126,6 +141,5 @@
             <url>http://jcenter.bintray.com</url>
         </repository>
     </repositories>
-
 
 </project>
