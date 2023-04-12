@@ -47,7 +47,7 @@ public class MallApplicationTests {
 
         request = post("/users/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1,\"username\":\"测试大师\",\"password\":\"123456\"}");
+                .content("{\"id\":1,\"username\":\"测试大师\",\"password\":\"abcefgHIJKLMN1@\"}");
         mvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("success")));
@@ -58,11 +58,11 @@ public class MallApplicationTests {
                 .andReturn()
                 .getResponse()
                 .getContentAsString(Charset.defaultCharset()); //防止中文乱码
-        Assertions.assertEquals(contentAsString,"[{\"id\":1,\"username\":\"测试大师\",\"password\":\"123456\"}]");
+        Assertions.assertEquals(contentAsString,"[{\"id\":1,\"username\":\"测试大师\",\"password\":\"abcefgHIJKLMN1@\"}]");
 
         request = put("/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1,\"username\":\"测试大师\",\"password\":\"23456\"}");
+                .content("{\"id\":1,\"username\":\"测试大师\",\"password\":\"abcefgHIJKLMN1@\"}");
         contentAsString = mvc.perform(request)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -76,7 +76,7 @@ public class MallApplicationTests {
                 .andReturn()
                 .getResponse()
                 .getContentAsString(Charset.defaultCharset()); //防止中文乱码
-        Assertions.assertEquals(contentAsString,"{\"id\":1,\"username\":\"测试大师\",\"password\":\"23456\"}");
+        Assertions.assertEquals(contentAsString,"{\"id\":1,\"username\":\"测试大师\",\"password\":\"abcefgHIJKLMN1@\"}");
 
         request = delete("/users/1");
         contentAsString = mvc.perform(request)
