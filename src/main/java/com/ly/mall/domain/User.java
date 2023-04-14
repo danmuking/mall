@@ -25,6 +25,9 @@ import javax.validation.constraints.Size;
 @ApiModel("用户实体")
 public class User {
 
+    public User(String username) {
+        this.username = username;
+    }
 
     @NotNull
     @ApiModelProperty("用户id")
@@ -34,8 +37,8 @@ public class User {
     @ApiModelProperty("姓名")
     private String username;
 
-    @Size(min=8,max = 30)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")
-    @ApiModelProperty("密码")
-    private String password;
+//    @Size(min=8,max = 30)
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")
+//    @ApiModelProperty("密码")
+//    private String password;
 }

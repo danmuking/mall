@@ -81,7 +81,7 @@ public class UserController {
     public String updateUser(@PathVariable Long id,@RequestBody User user){
         User user1 = userMap.get(id);
         user1.setUsername(user.getUsername());
-        user1.setPassword(user.getPassword());
+//        user1.setPassword(user.getPassword());
         userMap.put(id,user1);
         return "success";
     }

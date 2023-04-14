@@ -1,10 +1,14 @@
 package com.ly.mall;
 
 import com.ly.mall.controller.UserController;
+import com.ly.mall.domain.User;
+import com.ly.mall.mapper.UserMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.naming.Name;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -24,6 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class MallApplicationTests {
     private MockMvc mvc;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Before
     public void setUp() {
@@ -91,6 +99,15 @@ public class MallApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("[]")));
 
+    }
+
+    @Test
+    public void testUserMapper(){
+        User user = new User("test");
+        int i = userMapper.insertUser(user);
+        Assert.assertEquals(i,1);
+        User result = userMapper.findUserByName("test");
+        Assert.assertEquals(result,user);
     }
 
 }
