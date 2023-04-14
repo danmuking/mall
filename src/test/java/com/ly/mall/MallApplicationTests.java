@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import javax.naming.Name;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -103,11 +102,24 @@ public class MallApplicationTests {
 
     @Test
     public void testUserMapper(){
+        Assert.assertEquals(userMapper.getAllUser().size(),0);
         User user = new User("test");
-        int i = userMapper.insertUser(user);
+        int i = userMapper.insert(user);
         Assert.assertEquals(i,1);
-        User result = userMapper.findUserByName("test");
+        User result = userMapper.findByName("test");
         Assert.assertEquals(result,user);
+        long userId = result.getId();
+        result = userMapper.findById(userId);
+        Assert.assertEquals(result,user);
+        Assert.assertEquals(userMapper.getAllUser().size(),1);
+        user.setUsername("change");
+        i = userMapper.updateById(user);
+        Assert.assertEquals(i,1);
+        result = userMapper.findById(userId);
+        Assert.assertEquals(result,user);
+        i = userMapper.deleteById(userId);
+        Assert.assertEquals(i,1);
+        Assert.assertEquals(userMapper.getAllUser().size(),0);
     }
 
 }

@@ -3,11 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ly.mall.mapper.UserMapper">
-    <select id="findUserByName" resultType="User">
+    <select id="findByName" resultType="User">
         SELECT * FROM USER WHERE username = #{username}
     </select>
+    <select id="findById" resultType="User">
+        SELECT * FROM USER WHERE id = #{id}
+    </select>
+    <select id="getAllUser" resultType="User">
+        SELECT * FROM USER
+    </select>
 
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO USER(id, username) VALUES(#{id}, #{username})
     </insert>
+
+    <update id="updateById">
+        UPDATE user set id = #{id}
+            <if test="username!=null">
+                ,username=#{username}
+            </if>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+
+
 </mapper>
