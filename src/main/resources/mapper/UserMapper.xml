@@ -9,7 +9,7 @@
     <select id="findById" resultType="User">
         SELECT * FROM USER WHERE id = #{id}
     </select>
-    <select id="getAllUser" resultType="User">
+    <select id="getAll" resultType="User">
         SELECT * FROM USER
     </select>
 

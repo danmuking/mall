@@ -35,7 +35,7 @@ public interface UserMapper {
      * @description 获取所有用户
      * @date 2023/4/14 22:13
      */
-    List<User> getAllUser();
+    List<User> getAll();
 
     /**
      * @param user: 用户实体

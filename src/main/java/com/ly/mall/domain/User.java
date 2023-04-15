@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -29,6 +28,11 @@ public class User {
         this.username = username;
     }
 
+    public User(Long id,String username){
+        this.id = id;
+        this.username = username;
+    }
+
     @NotNull
     @ApiModelProperty("用户id")
     private Long id;
@@ -36,6 +40,9 @@ public class User {
     @Size(min = 2,max = 10)
     @ApiModelProperty("姓名")
     private String username;
+
+    @ApiModelProperty("用户角色")
+    private Role role;
 
 //    @Size(min=8,max = 30)
 //    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")

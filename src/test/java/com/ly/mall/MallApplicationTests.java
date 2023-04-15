@@ -1,7 +1,9 @@
 package com.ly.mall;
 
 import com.ly.mall.controller.UserController;
+import com.ly.mall.domain.Role;
 import com.ly.mall.domain.User;
+import com.ly.mall.mapper.RoleMapper;
 import com.ly.mall.mapper.UserMapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +33,8 @@ public class MallApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Before
     public void setUp() {
@@ -102,7 +106,7 @@ public class MallApplicationTests {
 
     @Test
     public void testUserMapper(){
-        Assert.assertEquals(userMapper.getAllUser().size(),0);
+        Assert.assertEquals(userMapper.getAll().size(),0);
         User user = new User("test");
         int i = userMapper.insert(user);
         Assert.assertEquals(i,1);
@@ -111,7 +115,7 @@ public class MallApplicationTests {
         long userId = result.getId();
         result = userMapper.findById(userId);
         Assert.assertEquals(result,user);
-        Assert.assertEquals(userMapper.getAllUser().size(),1);
+        Assert.assertEquals(userMapper.getAll().size(),1);
         user.setUsername("change");
         i = userMapper.updateById(user);
         Assert.assertEquals(i,1);
@@ -119,7 +123,25 @@ public class MallApplicationTests {
         Assert.assertEquals(result,user);
         i = userMapper.deleteById(userId);
         Assert.assertEquals(i,1);
-        Assert.assertEquals(userMapper.getAllUser().size(),0);
+        Assert.assertEquals(userMapper.getAll().size(),0);
+    }
+
+    @Test
+    public void testRoleMapper(){
+        Assert.assertEquals(roleMapper.getAll().size(),0);
+        Role role = new Role(1L,"test");
+        int i = roleMapper.insert(role);
+        Assert.assertEquals(i,1);
+        Role result = roleMapper.findById(1L);
+        Assert.assertEquals(result.getName(),role.getName());
+        long roleId = result.getId();
+        Assert.assertEquals(roleMapper.getAll().size(),1);
+        result.setName("change");
+        i = roleMapper.updateById(result);
+        Assert.assertEquals(i,1);
+        i = roleMapper.deleteById(roleId);
+        Assert.assertEquals(i,1);
+        Assert.assertEquals(roleMapper.getAll().size(),0);
     }
 
 }
