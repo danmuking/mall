@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS user;
+CREATE TABLE `user` (
+    `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `username` varchar(20) NOT NULL COMMENT '用户名'
+);
+DROP TABLE IF EXISTS role;
+CREATE TABLE `role`(
+   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+   `role_name` varchar(100) NOT NULL COMMENT '角色名'
+);
+DROP TABLE IF EXISTS action;
+CREATE TABLE `action`(
+   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+   `action_name` varchar(100) NOT NULL COMMENT '权限名称'
+)
