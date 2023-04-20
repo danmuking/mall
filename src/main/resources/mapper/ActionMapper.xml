@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.mall.mapper.ActionMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into action(id,action_name) values (#{id},#{name});
+    </insert>
+
+    <update id="updateById">
+        update action set action_name = #{name} where id=#{id}
+    </update>
+
+    <select id="findById" resultType="Action">
+        select
+            id,
+            action_name as "name"
+        from action
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="Action">
+        select
+            id,
+            action_name as "name"
+        from action
+    </select>
+
+    <delete id="deleteById">
+        delete from action where id=#{id}
+    </delete>
+</mapper>

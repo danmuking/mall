@@ -1,8 +1,10 @@
 package com.ly.mall;
 
 import com.ly.mall.controller.UserController;
+import com.ly.mall.domain.Action;
 import com.ly.mall.domain.Role;
 import com.ly.mall.domain.User;
+import com.ly.mall.mapper.ActionMapper;
 import com.ly.mall.mapper.RoleMapper;
 import com.ly.mall.mapper.UserMapper;
 import org.junit.Assert;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -19,8 +22,10 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.in;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +40,9 @@ public class MallApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private ActionMapper actionMapper;
 
     @Before
     public void setUp() {
@@ -142,6 +150,31 @@ public class MallApplicationTests {
         i = roleMapper.deleteById(roleId);
         Assert.assertEquals(i,1);
         Assert.assertEquals(roleMapper.getAll().size(),0);
+    }
+
+    @Test
+    public void testActionMapper(){
+        List<Action> actions = actionMapper.getAll();
+        if(!actions.isEmpty()){
+            for(Action action:actions){
+                actionMapper.deleteById(action.getId());
+            }
+        }
+        Assert.assertTrue(actionMapper.getAll().isEmpty());
+        Action action = new Action(1L,"test");
+        int i = actionMapper.insert(action);
+        Assert.assertEquals(i,1);
+        Action result = actionMapper.findById(1L);
+        Assert.assertEquals(result.getName(),action.getName());
+        long roleId = result.getId();
+        Assert.assertEquals(actionMapper.getAll().size(),1);
+        result.setName("change");
+        i = actionMapper.updateById(result);
+        Assert.assertEquals(i,1);
+        i = actionMapper.deleteById(roleId);
+        Assert.assertEquals(i,1);
+        Assert.assertEquals(actionMapper.getAll().size(),0);
+
     }
 
 }

@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: "dev"
+    group:
+      "dev": "dev-cloud-db"
+  mvc:
+    pathmatch:
+      matching-strategy:
+        ant_path_matcher
+
+  
+  # mybatis\u8BBE\u5B9A
+  # \u662F\u5426\u6267\u884CMyBatis xml\u914D\u7F6E\u6587\u4EF6\u7684\u72B6\u6001\u68C0\u67E5, \u53EA\u662F\u68C0\u67E5\u72B6\u6001,\u9ED8\u8BA4false
+mybatis:
+  check-config-location: true
+  # mybatis-config.xml\u6587\u4EF6\u7684\u4F4D\u7F6E
+  config-location: classpath:mybatis-config.xml
+  # Mapper\u5BF9\u5E94\u7684xml\u8DEF\u5F84
+  mapper-locations: classpath:mapper/*.xml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev-local-db"
+  datasource:
+    url: jdbc:mysql://localhost:3306/mall
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "dev-cloud-db"
+  datasource:
+    url: jdbc:mysql://42.192.202.114:54990/mall
+    username: mall
+    password: EGBjbXmyWa8SCbWT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
