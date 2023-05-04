@@ -1,4 +1,4 @@
-package com.ly.mall.config.Realm;
+package com.ly.mall.config.realm;
 
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -6,6 +6,9 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.realm.Realm;
 
+/**
+ * @author LinYi
+ */
 public class UserRealm implements Realm {
 
     @Override

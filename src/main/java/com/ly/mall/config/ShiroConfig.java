@@ -1,6 +1,6 @@
 package com.ly.mall.config;
 
-import com.ly.mall.config.Realm.UserRealm;
+import com.ly.mall.config.realm.UserRealm;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

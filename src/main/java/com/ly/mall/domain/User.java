@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @projectName: mall
@@ -42,7 +43,7 @@ public class User {
     private String username;
 
     @ApiModelProperty("用户角色")
-    private Role role;
+    private List<Role> role;
 
 //    @Size(min=8,max = 30)
 //    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")
