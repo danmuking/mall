@@ -94,10 +94,15 @@ public class UserController {
      * @description 根据id删除用户
      * @date 2023/4/9 22:56
      */
-    @ApiOperation(value = "删除用户u",notes = "根据用户id删除用户")
+    @ApiOperation(value = "删除用户",notes = "根据用户id删除用户")
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id){
         userMap.remove(id);
+        return "success";
+    }
+
+    @GetMapping("/login")
+    public String login(){
         return "success";
     }
 }
