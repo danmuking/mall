@@ -24,9 +24,9 @@ spring:
     activate:
       on-profile: "dev-local-db"
   datasource:
-    url: jdbc:mysql://localhost:3306/mall
-    username: root
-    password: 123456
+    url: jdbc:mysql://42.192.202.114:54990/mall
+    username: mall
+    password: EGBjbXmyWa8SCbWT
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 ---

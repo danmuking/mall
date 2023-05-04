@@ -5,6 +5,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -101,9 +107,19 @@ public class UserController {
         return "success";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "success";
+    @PostMapping("/login")
+    @ApiOperation(value = "用户登录",notes = "根据用户名和密码登录")
+    public String login(@RequestBody User user){
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+        try {
+            subject.login(token);
+            return "success";
+        } catch (UnknownAccountException e) {
+            return "用户名错误";
+        } catch (IncorrectCredentialsException e) {
+            return "密码错误";
+        }
     }
 }
 

@@ -1,0 +1,1 @@
+ALTER table mall.user add password varchar(32) not null comment '用户密码';

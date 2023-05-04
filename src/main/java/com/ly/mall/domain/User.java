@@ -45,8 +45,7 @@ public class User {
     @ApiModelProperty("用户角色")
     private List<Role> role;
 
-//    @Size(min=8,max = 30)
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$")
-//    @ApiModelProperty("密码")
-//    private String password;
+    @Size(min=8,max = 32)
+    @ApiModelProperty("密码")
+    private String password;
 }
