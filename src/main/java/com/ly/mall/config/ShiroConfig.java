@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -39,10 +40,10 @@ public class ShiroConfig {
 //        设置无权限时的跳转页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/noPermission");
 //        设置访问规则
-        Map<String,String> fileterChainMap = new HashMap<>();
-        fileterChainMap.put("/login","anon");
+        Map<String,String> fileterChainMap = new LinkedHashMap<>();
+        fileterChainMap.put("/users/login/","anon");
 //        拦截其余所有页面
-//        fileterChainMap.put("/**","authc");
+        fileterChainMap.put("/**","user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fileterChainMap);
         return shiroFilterFactoryBean;
     }

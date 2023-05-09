@@ -1,6 +1,8 @@
 package com.ly.mall.controller;
 
 import com.ly.mall.domain.User;
+import com.ly.mall.utils.CommonResult;
+import com.ly.mall.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -107,20 +110,34 @@ public class UserController {
         return "success";
     }
 
+    /**
+     *
+     * @param user 用户信息，必须包括用户名和密码
+     * @return 登录提示信息
+     */
     @PostMapping("/login")
     @ApiOperation(value = "用户登录",notes = "根据用户名和密码登录")
-    public String login(@RequestBody User user){
+    public CommonResult login(@RequestBody User user){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
         try {
             subject.login(token);
-            return "success";
-        } catch (UnknownAccountException e) {
-            return "用户名错误";
-        } catch (IncorrectCredentialsException e) {
-            return "密码错误";
+            return CommonResult.success("登录成功");
+        } catch (UnknownAccountException|IncorrectCredentialsException exception) {
+            return CommonResult.validate_failed("用户名或密码错误");
         }
     }
+
+    @RequestMapping("/loginOut")
+    @ApiOperation(value = "退出登录",notes = "退出当前用户登录")
+    public CommonResult loginOut(){
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.isAuthenticated()){
+            subject.logout();
+        }
+        return CommonResult.success("退出登录成功");
+    }
+
 }
 
 

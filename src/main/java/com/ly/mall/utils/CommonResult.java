@@ -87,5 +87,21 @@ public class CommonResult<T> {
         return failed(ResultCode.FAILED.getMsg());
     }
 
+    /**
+     * 参数校验失败返回结果
+     * @return CommonResult
+     */
+    public static <T> CommonResult<T> validate_failed(){
+        return new CommonResult<>(ResultCode.VALIDATE_FAILED.getCode(),ResultCode.VALIDATE_FAILED.getMsg(),null);
+    }
+
+    /**
+     * 参数校验失败返回结果
+     * @return CommonResult
+     */
+    public static <T> CommonResult<T> validate_failed(String msg){
+        return new CommonResult<>(ResultCode.VALIDATE_FAILED.getCode(),msg,null);
+    }
+
 
 }
