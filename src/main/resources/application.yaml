@@ -2,7 +2,7 @@ spring:
   profiles:
     active: "dev"
     group:
-      "dev": "dev-cloud-db,dev-email"
+      "dev": "dev-cloud-db,dev-email,dev-redis"
   mvc:
     pathmatch:
       matching-strategy:
@@ -52,4 +52,15 @@ email:
   username: lingyi550210817@126.com
   password: BSEXPDPOGYHIKKZW
   name: 邮件小助手
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev-redis"
+  redis:
+    host: 42.192.202.114
+    port: 6379
+    password: 550210817@qq.com
+
+
 ---

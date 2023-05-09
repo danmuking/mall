@@ -11,6 +11,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 /**
  * @projectName: mall
  * @package: com.ly.mall.config.realm
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomRealm extends AuthorizingRealm {
 
+    @Resource
     private UserMapper userMapper;
 
     @Autowired
