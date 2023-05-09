@@ -2,7 +2,7 @@ spring:
   profiles:
     active: "dev"
     group:
-      "dev": "dev-cloud-db"
+      "dev": "dev-cloud-db,dev-email"
   mvc:
     pathmatch:
       matching-strategy:
@@ -17,6 +17,7 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   # Mapper\u5BF9\u5E94\u7684xml\u8DEF\u5F84
   mapper-locations: classpath:mapper/*.xml
+
 
 ---
 spring:
@@ -41,4 +42,14 @@ spring:
     password: EGBjbXmyWa8SCbWT
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev-email"
+email:
+  hostname: smtp.126.com
+  username: lingyi550210817@126.com
+  password: BSEXPDPOGYHIKKZW
+  name: 邮件小助手
 ---
