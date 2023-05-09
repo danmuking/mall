@@ -128,6 +128,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 退出登录
+     */
     @RequestMapping("/loginOut")
     @ApiOperation(value = "退出登录",notes = "退出当前用户登录")
     public CommonResult loginOut(){
