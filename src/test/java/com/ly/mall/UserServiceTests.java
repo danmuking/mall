@@ -29,7 +29,15 @@ public class UserServiceTests {
     @Test
     public void testUserService() throws Exception {
         User user = userService.findUserByName("test1");
-        System.out.println(user);
+//        System.out.println(user);
+        user = new User();
+        user.setUsername("test");
+        user.setPassword("2940657509@");
+        userService.insertUser(user);
+        user = new User();
+        user.setUsername("test1");
+        user.setPassword("2940657509@");
+        userService.insertUser(user);
     }
 
 

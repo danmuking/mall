@@ -42,6 +42,7 @@ public class ShiroConfig {
 //        设置访问规则
         Map<String,String> fileterChainMap = new LinkedHashMap<>();
         fileterChainMap.put("/users/login/","anon");
+        fileterChainMap.put("/users/register/","anon");
 //        拦截其余所有页面
         fileterChainMap.put("/**","user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fileterChainMap);

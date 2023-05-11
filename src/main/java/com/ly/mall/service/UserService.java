@@ -16,4 +16,13 @@ public interface UserService {
      * @date 2023/5/4 22:56
      */
     public User findUserByName(String username);
+
+    /**
+     * @param user: 用户实体
+     * @return int: 插入成功的用户数量
+     * @author LinYi
+     * @description 保存用户信息。
+     * @date 2023/5/4 22:56
+     */
+    public int insertUser(User user);
 }

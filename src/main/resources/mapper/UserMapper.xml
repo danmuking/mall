@@ -14,7 +14,7 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user(id, username) VALUES(#{id}, #{username})
+        INSERT INTO user(id, username,password) VALUES(#{id}, #{username},#{password})
     </insert>
 
     <update id="updateById">

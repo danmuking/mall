@@ -1,18 +1,23 @@
 package com.ly.mall.controller;
 
 import com.ly.mall.domain.User;
+import com.ly.mall.service.UserService;
 import com.ly.mall.utils.CommonResult;
+import com.ly.mall.utils.EmailUtils;
 import com.ly.mall.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.mail.EmailException;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -34,6 +39,8 @@ import java.util.*;
 @Api(tags = "/用户管理")
 public class UserController {
     static Map<Long, User> userMap = Collections.synchronizedMap(new HashMap<Long,User>());
+    @Resource
+    UserService userService;
 
     /**
      * @return List<User>
@@ -139,6 +146,22 @@ public class UserController {
             subject.logout();
         }
         return CommonResult.success("退出登录成功");
+    }
+    @PostMapping("/register")
+    @ApiOperation(value = "用户注册",notes = "校验用户参数，注册新用户")
+    public CommonResult<String> register(@RequestBody @Validated(User.Save.class) User user){
+        int result = userService.insertUser(user);
+        if(result>0){
+            return CommonResult.success("用户注册成功");
+        }else {
+            return CommonResult.failed("用户注册失败");
+        }
+
+    }
+    @RequestMapping("/sendCode")
+    @ApiOperation(value = "验证码发送",notes = "通过邮箱发送验证码")
+    public CommonResult<String> sendCode(@RequestParam String email) throws EmailException {
+        EmailUtils.sendVerificationCode(email,"123123");
     }
 
 }

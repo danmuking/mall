@@ -34,10 +34,11 @@ public class User {
         this.username = username;
     }
 
-    @NotNull
+    @NotNull(groups = {Update.class})
     @ApiModelProperty("用户id")
     private Long id;
 
+    @NotNull(groups = {Save.class})
     @Size(min = 2,max = 10)
     @ApiModelProperty("姓名")
     private String username;
@@ -45,7 +46,21 @@ public class User {
     @ApiModelProperty("用户角色")
     private List<Role> role;
 
+    @NotNull(groups = {Save.class})
     @Size(min=8,max = 32)
     @ApiModelProperty("密码")
     private String password;
+
+    /**
+     * 保存的时候校验分组
+     */
+    public interface Save {
+    }
+
+    /**
+     * 更新的时候校验分组
+     */
+    public interface Update {
+    }
+
 }
