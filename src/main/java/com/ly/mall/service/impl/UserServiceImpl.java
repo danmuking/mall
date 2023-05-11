@@ -2,8 +2,9 @@ package com.ly.mall.service.impl;
 
 import com.ly.mall.domain.User;
 import com.ly.mall.mapper.UserMapper;
+import com.ly.mall.service.RedisService;
 import com.ly.mall.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ly.mall.utils.CommonResult;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    RedisService redisService;
+
     @Override
     public User findUserByName(String username) {
         User user = userMapper.findByName(username);
@@ -45,5 +49,23 @@ public class UserServiceImpl implements UserService {
             result = 0;
         }
         return result;
+    }
+
+    @Override
+    public User userRegister(User user) {
+
+//        检查是否有用户名相同的用户
+        User user1= userMapper.findByName(user.getUsername());
+        if(user1!=null){
+            return null;
+        }
+
+//        插入用户
+        int result = insertUser(user);
+        if(result>0){
+            return user;
+        }else {
+            return null;
+        }
     }
 }

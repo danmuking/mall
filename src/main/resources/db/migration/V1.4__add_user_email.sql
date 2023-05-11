@@ -1,0 +1,1 @@
+ALTER table mall.user add email varchar(40) not null comment '用户邮箱';

@@ -1,10 +1,12 @@
 package com.ly.mall.controller;
 
 import com.ly.mall.domain.User;
+import com.ly.mall.service.RedisService;
 import com.ly.mall.service.UserService;
 import com.ly.mall.utils.CommonResult;
 import com.ly.mall.utils.EmailUtils;
 import com.ly.mall.utils.ResultCode;
+import com.ly.mall.utils.VerificationUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,9 @@ public class UserController {
     static Map<Long, User> userMap = Collections.synchronizedMap(new HashMap<Long,User>());
     @Resource
     UserService userService;
+
+    @Resource
+    RedisService redisService;
 
     /**
      * @return List<User>
@@ -149,19 +154,35 @@ public class UserController {
     }
     @PostMapping("/register")
     @ApiOperation(value = "用户注册",notes = "校验用户参数，注册新用户")
-    public CommonResult<String> register(@RequestBody @Validated(User.Save.class) User user){
-        int result = userService.insertUser(user);
-        if(result>0){
-            return CommonResult.success("用户注册成功");
-        }else {
+    public CommonResult<String> register(@RequestParam String code,@RequestBody @Validated(User.Save.class) User user){
+//        校验验证码是否正确
+        String email = user.getEmail();
+//        没有验证码或验证码不正确
+        String verificationCode = (String) redisService.get(email);
+        if(!redisService.hasKey(email)||!verificationCode.equals(code)){
+            return CommonResult.failed("验证码不正确");
+        }
+        redisService.del(email);
+
+        user = userService.userRegister(user);
+        if(user == null){
             return CommonResult.failed("用户注册失败");
         }
-
+        return CommonResult.success("用户注册成功");
     }
     @RequestMapping("/sendCode")
     @ApiOperation(value = "验证码发送",notes = "通过邮箱发送验证码")
-    public CommonResult<String> sendCode(@RequestParam String email) throws EmailException {
-        EmailUtils.sendVerificationCode(email,"123123");
+    public CommonResult<String> sendCode(@RequestParam String email) {
+        String code = VerificationUtils.generateVerificationCode();
+//        将验证码保存到redis，设置过期时间为10分钟
+        redisService.set(email,code,10*60);
+        try {
+            EmailUtils.sendVerificationCode(email,code);
+        }catch (EmailException e){
+            redisService.del(email);
+            return CommonResult.failed("验证码发送失败");
+        }
+        return CommonResult.success("验证码发送成功");
     }
 
 }

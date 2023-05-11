@@ -25,4 +25,13 @@ public interface UserService {
      * @date 2023/5/4 22:56
      */
     public int insertUser(User user);
+
+    /**
+     * @param user: 用户实体
+     * @return User 用户信息
+     * @author LinYi
+     * @description 用户注册，成功返回用户实体，失败返回null
+     * @date 2023/5/11 23:04
+     */
+    public User userRegister(User user);
 }
