@@ -1,6 +1,7 @@
 package com.ly.mall.service;
 
 import com.ly.mall.domain.User;
+import org.apache.commons.mail.EmailException;
 
 /**
  * @author LinYi
@@ -34,4 +35,20 @@ public interface UserService {
      * @date 2023/5/11 23:04
      */
     public User userRegister(User user);
+
+    /**
+     *
+     * @param email 用户邮箱
+     * @return 状态码
+     */
+    public int forgetPassword(String email);
+
+    /**
+     *
+     * @param email 用户邮箱
+     * @param password 用户新密码
+     * @param sid 用户sid
+     * @return 状态码
+     */
+    public int resetPassword(String email,String password,String sid);
 }

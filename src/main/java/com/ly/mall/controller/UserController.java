@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -36,6 +38,7 @@ import java.util.*;
  * @version: 1.0
  */
 @RestController
+@Validated
 @RequestMapping(value = "/users")
 @Slf4j
 @Api(tags = "/用户管理")
@@ -183,6 +186,41 @@ public class UserController {
             return CommonResult.failed("验证码发送失败");
         }
         return CommonResult.success("验证码发送成功");
+    }
+
+    @RequestMapping("/forget")
+    @ApiOperation(value = "忘记密码",notes = "通过邮箱找回密码")
+    public CommonResult<Integer> forgetPassword(@RequestParam @Email String email){
+        int status = userService.forgetPassword(email);
+        if(status>0){
+            return CommonResult.success(status);
+        }
+        else if (status==-1) {
+            return CommonResult.failed("用户不存在");
+        }
+        else if (status==-2) {
+            return CommonResult.failed("邮件发送失败");
+        }
+        else {
+            return CommonResult.failed();
+        }
+    }
+    @PostMapping("/resetPassword")
+    @ApiOperation(value = "重置密码",notes = "重置用户密码")
+    public CommonResult<String> resetPassword(@RequestParam @Email String email, @RequestParam @Size(min=8,max = 32) String password, @RequestParam String sid){
+        int status = userService.resetPassword(email,password,sid);
+        if(status>0){
+            return CommonResult.success("重置密码成功");
+        } else if(status==-1){
+            return CommonResult.failed("用户不存在");
+        } else if (status==-2) {
+            return CommonResult.failed("验证错误");
+        } else if (status==-3) {
+            return CommonResult.failed("新密码不可与原密码相同");
+        }else {
+            return CommonResult.failed();
+        }
+
     }
 
 }

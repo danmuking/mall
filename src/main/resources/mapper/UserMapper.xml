@@ -9,6 +9,9 @@
     <select id="findById" resultType="User">
         SELECT * FROM user WHERE id = #{id}
     </select>
+    <select id="findByEmail" resultType="com.ly.mall.domain.User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
     <select id="getAll" resultType="User">
         SELECT * FROM user
     </select>

@@ -44,6 +44,8 @@ public class ShiroConfig {
         fileterChainMap.put("/users/login/","anon");
         fileterChainMap.put("/users/register/","anon");
         fileterChainMap.put("/users/sendCode/","anon");
+        fileterChainMap.put("/users/forget/","anon");
+        fileterChainMap.put("/users/resetPassword/","anon");
 //        拦截其余所有页面
         fileterChainMap.put("/**","user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fileterChainMap);

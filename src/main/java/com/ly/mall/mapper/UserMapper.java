@@ -30,6 +30,13 @@ public interface UserMapper {
     User findById(@Param("id") Long id);
 
     /**
+     * @param email 用户邮箱
+     * @return User
+     * @description 根据邮箱查询用户
+     */
+    User findByEmail(@Param("email") String email);
+
+    /**
      * @return List<User> 包含所有用户信息的列表
      * @author LinYi
      * @description 获取所有用户
