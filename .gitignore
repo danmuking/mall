@@ -61,3 +61,4 @@ build/
 **/.mvn
 **/target/
 **/.gitignore
+/renren-fast-vue/build/
