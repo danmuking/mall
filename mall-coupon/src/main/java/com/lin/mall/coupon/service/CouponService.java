@@ -1,0 +1,20 @@
+package com.lin.mall.coupon.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.common.utils.PageUtils;
+import com.lin.mall.coupon.entity.CouponEntity;
+
+import java.util.Map;
+
+/**
+ * 优惠券信息
+ *
+ * @author lin
+ * @email 550210817@qq.com
+ * @date 2023-08-26 18:45:38
+ */
+public interface CouponService extends IService<CouponEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+
