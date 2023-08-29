@@ -50,7 +50,7 @@ public class CategoryController {
     public R tree(@RequestParam Map<String, Object> params){
         List<CategoryEntity> categoryEntityList = categoryService.listWithTree();
 
-        return R.ok().put("tree", categoryEntityList);
+        return R.ok().put("data", categoryEntityList);
     }
 
 
