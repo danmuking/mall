@@ -1,7 +1,11 @@
 package com.lin.mall.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +28,44 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<CategoryEntity> listWithTree() {
+
+//        获取所有数据库记录
+        List<CategoryEntity> categoryEntityList = baseMapper.selectList(null);
+
+//        找出所有顶级菜单
+        List<CategoryEntity> level1Menus = categoryEntityList.stream()
+                .filter(categoryEntity -> categoryEntity.getParentCid()==0)
+                .map((menu)->{
+                    menu.setChildren(getChildren(menu,categoryEntityList));
+                    return menu;
+                })
+                .sorted(((o1, o2) -> (o1.getSort()==null?0:o1.getSort())-(o2.getSort()==null?0:o2.getSort())))
+                .collect(Collectors.toList());
+
+//        找出父菜单的所有子菜单
+
+        return level1Menus;
+    }
+
+    /**
+     * 获取categoryEntityList中root的子菜单
+     * @param root
+     * @param categoryEntityList
+     * @return
+     */
+    private List<CategoryEntity> getChildren(CategoryEntity root,List<CategoryEntity> categoryEntityList){
+        return categoryEntityList.stream()
+                .filter(categoryEntity -> categoryEntity.getParentCid().equals(root.getCatId()))
+                .map(categoryEntity -> {
+                    categoryEntity.setChildren(getChildren(categoryEntity,categoryEntityList));
+                    return categoryEntity;
+                })
+                .sorted(((o1, o2) -> (o1.getSort()==null?0:o1.getSort())-(o2.getSort()==null?0:o2.getSort())))
+                .collect(Collectors.toList());
     }
 
 }

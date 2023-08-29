@@ -4,6 +4,10 @@ spring:
     password: 550210817@
     url: jdbc:mysql://42.192.202.114:54990/mall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 42.192.202.114:8848
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
