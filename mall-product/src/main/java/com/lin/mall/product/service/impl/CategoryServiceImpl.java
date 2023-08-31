@@ -2,6 +2,7 @@ package com.lin.mall.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,6 +50,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 //        找出父菜单的所有子菜单
 
         return level1Menus;
+    }
+
+    /**
+     * 逻辑删除菜单
+     * @param list
+     */
+    @Override
+    public void logicRemoveByIds(List<Long> list) {
+        baseMapper.deleteBatchIds(list);
     }
 
     /**
