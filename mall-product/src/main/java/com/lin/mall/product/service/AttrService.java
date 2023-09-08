@@ -3,6 +3,7 @@ package com.lin.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.common.utils.PageUtils;
 import com.lin.mall.product.entity.AttrEntity;
+import com.lin.mall.product.vo.AttrRespVo;
 import com.lin.mall.product.vo.AttrVo;
 
 import java.util.Map;
@@ -21,5 +22,18 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttr(AttrVo attrVo);
 
     PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    /**
+     * 根据attrId获取规格参数的详细信息
+     * @param attrId
+     * @return
+     */
+    AttrRespVo getDetailAttr(Long attrId);
+
+    /**
+     * 更新属性
+     * @param attrVo
+     */
+    void updateAttr(AttrVo attrVo);
 }
 

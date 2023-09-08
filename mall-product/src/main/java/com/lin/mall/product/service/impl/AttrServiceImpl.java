@@ -6,6 +6,7 @@ import com.lin.mall.product.dao.CategoryDao;
 import com.lin.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.lin.mall.product.entity.AttrGroupEntity;
 import com.lin.mall.product.entity.CategoryEntity;
+import com.lin.mall.product.service.CategoryService;
 import com.lin.mall.product.vo.AttrRespVo;
 import com.lin.mall.product.vo.AttrVo;
 import org.springframework.beans.BeanUtils;
@@ -33,11 +34,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Resource
     AttrAttrgroupRelationDao relationDao;
-
     @Resource
     AttrGroupDao attrGroupDao;
     @Resource
     CategoryDao categoryDao;
+    @Resource
+    CategoryService categoryService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -103,6 +106,42 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         pageUtils.setList(respVos);
         return pageUtils;
+    }
+
+    @Override
+    public AttrRespVo getDetailAttr(Long attrId) {
+//        获取属性基本信息
+        AttrEntity attrEntity = this.getById(attrId);
+//        从关系表中获取分组
+        AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+//        根据分组id获取类别
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
+//        获取类别路径
+        Long[] catelogPath = categoryService.findCatelogPath(attrGroupEntity.getCatelogId());
+
+        AttrRespVo attrRespVo = new AttrRespVo();
+        BeanUtils.copyProperties(attrEntity,attrRespVo);
+        attrRespVo.setCatelogPath(catelogPath);
+        attrRespVo.setCatelogId(attrGroupEntity.getCatelogId());
+        attrRespVo.setAttrGroupId(attrGroupEntity.getAttrGroupId());
+
+        return attrRespVo;
+    }
+
+    @Override
+    public void updateAttr(AttrVo attrVo) {
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attrVo,attrEntity);
+//        修改基本信息
+        this.updateById(attrEntity);
+//        修改分类信息
+        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+        BeanUtils.copyProperties(attrVo,attrAttrgroupRelationEntity);
+        relationDao.update(attrAttrgroupRelationEntity,new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attrEntity.getAttrId()));
+//        修改分组信息
+        AttrGroupEntity attrGroupEntity = new AttrGroupEntity();
+        BeanUtils.copyProperties(attrVo,attrGroupEntity);
+        attrGroupDao.update(attrGroupEntity,new QueryWrapper<AttrGroupEntity>().eq("attr_group_id",attrGroupEntity.getAttrGroupId()));
     }
 
 }

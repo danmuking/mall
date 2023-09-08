@@ -6,6 +6,7 @@ import java.util.Map;
 import com.lin.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.lin.mall.product.entity.AttrGroupEntity;
 import com.lin.mall.product.service.AttrGroupService;
+import com.lin.mall.product.vo.AttrRespVo;
 import com.lin.mall.product.vo.AttrVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class AttrController {
      */
     @RequestMapping("/info/{attrId}")
         public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+		AttrRespVo attr = attrService.getDetailAttr(attrId);
 
         return R.ok().put("attr", attr);
     }
@@ -74,8 +75,9 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-        public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+        public R update(@RequestBody AttrVo attrVo){
+//		attrService.updateById(attr);
+        attrService.updateAttr(attrVo);
 
         return R.ok();
     }
